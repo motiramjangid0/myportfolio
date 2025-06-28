@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Registration Form | CodingLab</title>
+    <link rel="stylesheet" href="RegistrationCss.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Title section -->
+      <div class="title">Registration</div>
+      <div class="content">
+        <!-- Registration form -->
+        <form action="/register" id="registrationForm" method="POST">
+          <div class="user-details">
+            <!-- Input for Full Name -->
+            <div class="input-box">
+              <span class="details">Full Name</span>
+              <input
+                type="text"
+                name="Name"
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+            <!-- Input for Username -->
+            <div class="input-box">
+              <span class="details">Username</span>
+              <input
+                type="text"
+                name="Username"
+                placeholder="Enter your username"
+                required
+              />
+            </div>
+            <!-- Input for Email -->
+            <div class="input-box">
+              <span class="details">Email</span>
+              <input
+                type="text"
+                name="Email"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+            <!-- Input for Phone Number -->
+            <div class="input-box">
+              <span class="details">Phone Number</span>
+              <input
+                type="text"
+                name="Number"
+                maxlength="10"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                placeholder="Enter your number"
+                required
+              />
+            </div>
+            <!-- Input for Password -->
+            <div class="input-box">
+              <span class="details">Password</span>
+              <input
+                type="password"
+                name="Password"
+                placeholder="Enter your password"
+                required
+              />
+            </div>
+            <!-- Input for Confirm Password -->
+            <div class="input-box">
+              <span class="details">Confirm Password</span>
+              <input
+                type="password"
+                name="ConformPassword"
+                placeholder="Confirm your password"
+                required
+              />
+            </div>
+          </div>
+          <div class="gender-details">
+            <!-- Radio buttons for gender selection -->
+            <input type="radio" name="gender" id="dot-1" value="1" />
+            <input type="radio" name="gender" id="dot-2" value="2" />
+            <input type="radio" name="gender" id="dot-3" value="3" />
+            <span class="gender-title">Gender</span>
+            <div class="category">
+              <!-- Label for Male -->
+              <label for="dot-1">
+                <span class="dot one"></span>
+                <span class="gender">Male</span>
+              </label>
+              <!-- Label for Female -->
+              <label for="dot-2">
+                <span class="dot two"></span>
+                <span class="gender">Female</span>
+              </label>
+              <!-- Label for Prefer not to say -->
+              <label for="dot-3">
+                <span class="dot three"></span>
+                <span class="gender">Prefer not to say</span>
+              </label>
+            </div>
+          </div>
+          <!-- Submit button -->
+          <div class="button">
+            <input type="submit" value="Register" />
+          </div>
+          <div class="button">
+            <input
+              type="button"
+              onclick="window.location.href='/login'"
+              value="Allready have account?"
+            />
+          </div>
+        </form>
+        <!-- jQuery (required for AJAX) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <!-- SweetAlert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+          // Intercept form submission
+          $("#registrationForm").on("submit", function (e) {
+            e.preventDefault(); // Prevent default form submit (page reload)
+
+            // Gather form data
+            const formData = {
+              Name: $("input[name='Name']").val(),
+              Username: $("input[name='Username']").val(),
+              Email: $("input[name='Email']").val(),
+              Number: $("input[name='Number']").val(),
+              Password: $("input[name='Password']").val(),
+              ConformPassword: $("input[name='ConformPassword']").val(),
+              gender: $("input[name='gender']:checked").val(),
+            };
+
+            // Optional: validate ConfirmPassword here if needed
+
+            // Send AJAX POST request to backend
+            $.ajax({
+              url: "/register",
+              method: "POST",
+              data: formData,
+              success: function (response) {
+                if (response.success) {
+                  Swal.fire({
+                    title: "Success!",
+                    text: response.message,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                  }).then(() => {
+                    window.location.href = "/Registration"; // Redirect after success
+                  });
+                } else {
+                  Swal.fire({
+                    title: "Error",
+                    text: response.message,
+                    icon: "error",
+                  });
+                }
+              },
+              error: function () {
+                Swal.fire({
+                  title: "Oops!",
+                  text: "Something went wrong with the server.",
+                  icon: "error",
+                });
+              },
+            });
+          });
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
