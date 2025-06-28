@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 //const db = require("./db");
 const app = express();
-//const PORT = 3000;
+const PORT = 3000;
 //const bcrypt = require("bcrypt");
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -122,6 +122,6 @@ app.get("/", (req, res) => {
 // });
 
 // // Start Server
-// app.listen(PORT, () => {
-//   console.log(`Server running at http://localhost:${PORT}`);
-// });
+app.listen(PORT, () => {
+  //console.log(`Server running at http://localhost:${PORT}`);
+ });
